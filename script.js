@@ -6,5 +6,6 @@ function onPush(github, event, cb) {
 
 function onPullRequestReviewComment(github, event, cb) {
 	console.log(event.comment.path);
+	console.log('test');
 	cb();
 }
