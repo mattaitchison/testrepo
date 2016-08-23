@@ -5,6 +5,6 @@ function onPush(github, event, cb) {
 
 
 function onIssueComment(github, event, cb) {
-	console.log(event);
+	console.log(JSON.stringify(event));
 	cb();
 }
