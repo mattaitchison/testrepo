@@ -15,5 +15,6 @@ function onIssueComment(github, event, cb) {
 		cb();
 	}).catch(function(e) {
     console.log(JSON.stringify(e));
+    cb();
   })
 }
