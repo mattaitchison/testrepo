@@ -4,7 +4,7 @@ function onPush(github, event, cb) {
 }
 
 
-function onPullRequestReviewComment(github, event, cb) {
-	console.log(event.comment.path);
+function onIssueComment(github, event, cb) {
+	console.log(event);
 	cb();
 }
