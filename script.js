@@ -1,5 +1,8 @@
 function onIssueComment(github, event, cb) {
-    const {number, state} = event.issue;
+    const {
+        number,
+        state
+    } = event.issue;
     const owner = event.repository.owner.login;
     const repo = event.repository.name;
     const author = event.comment.user.login;
@@ -36,7 +39,12 @@ function onIssueComment(github, event, cb) {
         }
     ).then(
         res => {
-            console.log(JSON.stringify(res))
+            console.log(JSON.stringify(res));
+            return github.pullRequests.get({
+                user: owner,
+                repo: repo,
+                number: number,
+            });
         },
         err => {
             console.log(JSON.stringify({
@@ -49,6 +57,10 @@ function onIssueComment(github, event, cb) {
                 throw new Error("PR for issue number not found");
             }
         }
+    ).then(
+      res => {
+        console.log(JSON.stringify(res));
+      }
     ).then(cb).catch(e => {
         console.log(e);
         cb();
