@@ -8,6 +8,7 @@ function onIssueComment(github, event, cb) {
     var author = event.comment.user.login;
     var msg = event.comment.body;
     if (msg.toLowerCase() !== 'lgtm') {
+        console.log("nothing to do");
         return cb();
     }
     github.repos.checkCollaborator({
