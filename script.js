@@ -9,7 +9,7 @@ function onIssueComment(github, event, cb) {
 	console.log(event.repository.name)
 	console.log(event.issue.number)
 	// console.log(JSON.stringify(event));
-	github.pullRequests.checkMerged({
+	github.pullRequests.get({
     user: event.repository.owner.login,
     repo: event.repository.name,
     number: event.issue.number
