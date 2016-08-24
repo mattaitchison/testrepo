@@ -5,7 +5,7 @@ function onPush(github, event, cb) {
 
 function isCollab(owner,repo, user) {
 	return github.repos.checkCollaborator({
-	    user: owner
+	    user: owner,
 	    repo: repo,
 	    collabuser: user
 	}).then(function(a){
