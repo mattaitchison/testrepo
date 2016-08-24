@@ -46,7 +46,7 @@ function onIssueComment(github, event, cb) {
         }).then(github.gitdata.deleteReference({user: owner, repo: repo, ref: 'heads/'+ref}));
       }
     ).then(
-      () => (cb),
+      cb,
       err => {console.log(err)}
     ).catch(e => {
         console.log(e);
