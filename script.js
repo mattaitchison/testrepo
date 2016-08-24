@@ -27,7 +27,7 @@ function onIssueComment(github, event, cb) {
                     number: number})
     ).then(
         res => {
-            console.log(res)
+            console.log(JSON.stringify(res))
             // Atempt to merge PR.
             return github.pullRequests.merge({
                 user: owner,
@@ -42,33 +42,8 @@ function onIssueComment(github, event, cb) {
             }));
             throw new Error("author is not collaborator");
         }
-    ).then(
-        res => {
-            console.log(JSON.stringify(res));
-            return github.pullRequests.get({
-                user: owner,
-                repo: repo,
-                number: number,
-            });
-        },
-        err => {
-            console.log(JSON.stringify({
-                "error": err
-            }));
-            if (err.code == 405) {
-                throw new Error("Pull Request is not mergeable");
-            }
-            if (err.code == 404) {
-                throw new Error("PR for issue number not found");
-            }
-        }
-    ).then(
-      res => {
-        console.log(JSON.stringify(res));
-      }
     ).then(cb).catch(e => {
         console.log(e);
         cb();
     });
 }
-
