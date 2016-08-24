@@ -22,7 +22,7 @@ function onIssueComment(github, event, cb) {
 	console.log(event.comment.user.login)
 	// console.log(JSON.stringify(event));
 	
-	console.log(isCollab(g,event.repository.owner.login,event.repository.name,event.comment.user.login))
+	console.log(isCollab(github,event.repository.owner.login,event.repository.name,event.comment.user.login))
 	github.pullRequests.get({
     user: event.repository.owner.login,
     repo: event.repository.name,
