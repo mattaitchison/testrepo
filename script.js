@@ -14,7 +14,7 @@ function onIssueComment(github, event, cb) {
     github.repos.checkCollaborator({
         user: owner,
         repo: repo,
-        collabuser: "progrium"
+        collabuser: author
     }).then(function (res) {
         return github.pullRequests.merge({
             user: owner,
