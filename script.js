@@ -22,29 +22,35 @@ function onIssueComment(github, event, cb) {
         repo: repo,
         collabuser: author
     }).then(
-        res => {
-          return github.pullRequests.get({
-                        user: owner,
-                        repo: repo,
-                        number: number})
-            // console.log(JSON.stringify(res))
+        () => {
+            return github.pullRequests.get({
+                    user: owner,
+                    repo: repo,
+                    number: number
+                })
+                // console.log(JSON.stringify(res))
         },
         err => {
             console.log(JSON.stringify({
                 "error": err
             }));
-            throw new Error("author is not collaborator");
+            throw new Error("author is not a collaborator");
         }
     ).then(
-      res => {
-        const ref = res.head.ref;
-        return github.pullRequests.merge({
-            user: owner,
-            repo: repo,
-            number: number,
-            squash: true
-        }).then(() => github.gitdata.deleteReference({user: owner, repo: repo, ref: 'heads/'+ref})); // Only run if merge succeeds.
-      }
+        res => {
+            const ref = res.head.ref;
+            // attempt to merge pr then delete branch if successful.
+            return github.pullRequests.merge({
+                user: owner,
+                repo: repo,
+                number: number,
+                squash: true
+            }).then(() => github.gitdata.deleteReference({
+                user: owner,
+                repo: repo,
+                ref: 'heads/' + ref
+            }));
+        }
     ).then(cb).catch(e => {
         console.log(e);
         cb();
