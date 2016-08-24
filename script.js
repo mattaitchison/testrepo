@@ -5,6 +5,9 @@ function onPush(github, event, cb) {
 
 
 function onIssueComment(github, event, cb) {
+	console.log(event.repository.owner.login)
+	console.log(event.repository.name)
+	console.log(event.issue.number)
 	// console.log(JSON.stringify(event));
 	github.pullRequests.checkMerged({
     user: event.repository.owner.login,
