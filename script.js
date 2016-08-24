@@ -22,10 +22,10 @@ function onIssueComment(github, event, cb) {
             number: event.issue.number,
         });
     }, function (err) {
-        console.log(err);
+        console.log(JSON.stringify({ "error": err }));
     }).then(function (res) {
-        console.log(res);
+        console.log(JSON.stringify(res));
     }, function (err) {
-        console.log(err);
+        console.log(JSON.stringify({ "error": err }));
     }).then(cb);
 }
