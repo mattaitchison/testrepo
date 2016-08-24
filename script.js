@@ -9,13 +9,13 @@ function onIssueComment(github, event, cb) {
 	console.log(event.repository.name)
 	console.log(event.issue.number)
 	console.log(event.comment.body)
-	console.log(event.comment.author)
+	console.log(event.comment.user.login)
 	// console.log(JSON.stringify(event));
 	
 	github.repos.checkCollaborator({
 	    user: event.repository.owner.login,
 	    repo: event.repository.name,
-	    collabuser: event.comment.author
+	    collabuser: event.comment.user.login
 	}).then(function(a,b){
 		console.log(JSON.stringify(a),JSON.stringify(b));
 		cb();
