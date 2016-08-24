@@ -50,7 +50,7 @@ function onIssueComment(github, event, cb) {
             }
         }
     ).then(cb).catch(e => {
-        console.log("caught err", e);
+        console.log(e);
         cb();
     });
 }
