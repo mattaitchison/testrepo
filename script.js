@@ -47,7 +47,7 @@ function onIssueComment(github, event, cb) {
       }
     ).then(
       () => (cb),
-      err => console.log(err);
+      err => {console.log(err)}
     ).catch(e => {
         console.log(e);
         cb();
