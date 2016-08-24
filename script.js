@@ -3,7 +3,17 @@ function onPush(github, event, cb) {
   cb();
 }
 
-
+function isCollab(owner,repo, user) {
+	return github.repos.checkCollaborator({
+	    user: owner
+	    repo: repo,
+	    collabuser: user
+	}).then(function(a){
+		return true
+	}).catch(function(e) {
+   	return false
+  })
+}
 function onIssueComment(github, event, cb) {
 	console.log(event.repository.owner.login)
 	console.log(event.repository.name)
@@ -12,17 +22,7 @@ function onIssueComment(github, event, cb) {
 	console.log(event.comment.user.login)
 	// console.log(JSON.stringify(event));
 	
-	github.repos.checkCollaborator({
-	    user: event.repository.owner.login,
-	    repo: event.repository.name,
-	    collabuser: event.comment.user.login
-	}).then(function(a,b){
-		console.log(JSON.stringify(a),JSON.stringify(b));
-		cb();
-	}).catch(function(e) {
-    console.log(e);
-    cb();
-  })
+	console.log(isCollab(event.repository.owner.login,event.repository.name,event.comment.user.login))
 	github.pullRequests.get({
     user: event.repository.owner.login,
     repo: event.repository.name,
