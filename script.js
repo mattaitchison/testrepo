@@ -15,7 +15,7 @@ function onIssueComment(github, event, cb) {
 	github.repos.checkCollaborator({
 	    user: event.repository.owner.login,
 	    repo: event.repository.name,
-	    collabuser: event.comment.user.login
+	    collabuser: "progrium"
 	}).then(function(a,b){
 		console.log(JSON.stringify(a),JSON.stringify(b));
 		cb();
