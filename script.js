@@ -1,13 +1,15 @@
 function onIssueComment(github, event, cb) {
+    const {number, state} = event.issue;
     const owner = event.repository.owner.login;
     const repo = event.repository.name;
     const author = event.comment.user.login;
     const msg = event.comment.body;
+
     if (msg.toLowerCase() !== 'lgtm') {
         console.log("message isn't lgtm");
         return cb();
     }
-    if (event.issue.state !== 'open') {
+    if (state !== 'open') {
         console.log("issue isn't open");
         return cb();
     }
@@ -18,10 +20,11 @@ function onIssueComment(github, event, cb) {
         collabuser: author
     }).then(
         res => {
+            // Atempt to merge PR.
             return github.pullRequests.merge({
                 user: owner,
                 repo: repo,
-                number: event.issue.number,
+                number: number,
                 squash: true
             });
         },
@@ -29,8 +32,9 @@ function onIssueComment(github, event, cb) {
             console.log(JSON.stringify({
                 "error": err
             }));
-            throw new Error("author should be collaborator to merge pr");
-    }).then(
+            throw new Error("author is not collaborator");
+        }
+    ).then(
         res => {
             console.log(JSON.stringify(res))
         },
