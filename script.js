@@ -10,6 +10,17 @@ function onIssueComment(github, event, cb) {
 	console.log(event.issue.number)
 	console.log(JSON.stringify(event.comment.body))
 	// console.log(JSON.stringify(event));
+	github.repos.checkCollaborator({
+	    user: event.repository.owner.login,
+	    repo: event.repository.name,
+	    collabuser: event.comment.author
+	}).then(function(a,b){
+		console.log(JSON.stringify(a),JSON.stringify(b));
+		cb();
+	}).catch(function(e) {
+    console.log(e);
+    cb();
+  })
 	github.pullRequests.get({
     user: event.repository.owner.login,
     repo: event.repository.name,
