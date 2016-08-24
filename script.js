@@ -54,7 +54,7 @@ function onIssueComment(github, event, cb) {
                 throw new Error("Pull Request is not mergeable");
             }
             if (err.code == 404) {
-                throw new Error("PR for issue number not found");
+                throw new Error("PR for issue number not found ");
             }
         }
     ).then(
