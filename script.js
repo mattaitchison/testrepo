@@ -8,8 +8,10 @@ function onIssueComment(github, event, cb) {
 	console.log(event.repository.owner.login)
 	console.log(event.repository.name)
 	console.log(event.issue.number)
-	console.log(JSON.stringify(event.comment.body))
+	console.log(event.comment.body)
+	console.log(event.comment.author)
 	// console.log(JSON.stringify(event));
+	
 	github.repos.checkCollaborator({
 	    user: event.repository.owner.login,
 	    repo: event.repository.name,
