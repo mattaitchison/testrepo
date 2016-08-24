@@ -7,7 +7,7 @@ function onIssueComment(github, event, cb) {
     var repo = event.repository.name;
     var author = event.comment.user.login;
     var msg = event.comment.body;
-    if (msg.toLowerCase() !== 'lgtm') {
+    if (msg.toLowerCase() !== 'lgtm' || event.issue.state !== 'open') {
         console.log("nothing to do");
         return cb();
     }
@@ -16,10 +16,11 @@ function onIssueComment(github, event, cb) {
         repo: repo,
         collabuser: author
     }).then(function (res) {
-        return github.pullRequests.get({
+        return github.pullRequests.merge({
             user: owner,
             repo: repo,
             number: event.issue.number,
+            squash: true
         });
     }, function (err) {
         console.log(JSON.stringify({ "error": err }));
