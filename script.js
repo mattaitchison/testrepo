@@ -16,20 +16,16 @@ function onIssueComment(github, event, cb) {
         repo: repo,
         collabuser: author
     }).then(function (res) {
+        return github.pullRequests.get({
+            user: owner,
+            repo: repo,
+            number: event.issue.number,
+        });
+    }, function (err) {
+        console.log(err);
+    }).then(function (res) {
         console.log(res);
     }, function (err) {
-        console.error(err);
-        return cb();
-    });
-    github.pullRequests.get({
-        user: event.repository.owner.login,
-        repo: event.repository.name,
-        number: event.issue.number,
-    }).then(function () {
-        cb();
-    }).catch(function (e) {
-        console.log(e);
-        cb();
-    });
-    return cb();
+        console.log(err);
+    }).then(cb);
 }
