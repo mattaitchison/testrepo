@@ -56,3 +56,4 @@ function onIssueComment(github, event, cb) {
         cb();
     });
 }
+
