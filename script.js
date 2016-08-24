@@ -45,13 +45,8 @@ function onIssueComment(github, event, cb) {
             squash: true
         }).then(() => github.gitdata.deleteReference({user: owner, repo: repo, ref: 'heads/'+ref})); // Only run if merge succeeds.
       }
-    ).then(
-      cb,
-      err => {console.log(err)}
-    ).catch(e => {
+    ).then(cb).catch(e => {
         console.log(e);
         cb();
     });
 }
-
-// / //
