@@ -27,6 +27,7 @@ function onIssueComment(github, event, cb) {
                     number: number})
     ).then(
         res => {
+            console.log(res)
             // Atempt to merge PR.
             return github.pullRequests.merge({
                 user: owner,
@@ -70,4 +71,3 @@ function onIssueComment(github, event, cb) {
         cb();
     });
 }
-
