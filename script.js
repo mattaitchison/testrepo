@@ -14,7 +14,7 @@ function onIssueComment(github, event, cb) {
 		console.log(JSON.stringify(a),JSON.stringify(b));
 		cb();
 	}).catch(function(e) {
-    console.log(JSON.stringify(e));
+    console.log(e);
     cb();
   })
 }
