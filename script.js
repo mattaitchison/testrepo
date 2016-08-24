@@ -21,7 +21,11 @@ function onIssueComment(github, event, cb) {
         user: owner,
         repo: repo,
         collabuser: author
-    }).then(
+    }).then(() => github.pullRequests.get({
+                    user: owner,
+                    repo: repo,
+                    number: number})
+    ).then(
         res => {
             // Atempt to merge PR.
             return github.pullRequests.merge({
@@ -54,7 +58,7 @@ function onIssueComment(github, event, cb) {
                 throw new Error("Pull Request is not mergeable");
             }
             if (err.code == 404) {
-                throw new Error("PR for issue number not found ");
+                throw new Error("PR for issue number not found");
             }
         }
     ).then(
