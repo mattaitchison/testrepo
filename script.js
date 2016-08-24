@@ -1,37 +1,34 @@
 function onPush(github, event, cb) {
-  console.log("Hello world");
-  cb();
-}
-
-function isCollab(g,owner,repo, user) {
-	return g.repos.checkCollaborator({
-	    user: owner,
-	    repo: repo,
-	    collabuser: user
-	}).then(function(a){
-		return true
-	}).catch(function(e) {
-   	return false
-  })
+    console.log('Hello world');
+    cb();
 }
 function onIssueComment(github, event, cb) {
-	console.log(event.repository.owner.login)
-	console.log(event.repository.name)
-	console.log(event.issue.number)
-	console.log(event.comment.body)
-	console.log(event.comment.user.login)
-	// console.log(JSON.stringify(event));
-	
-	console.log(isCollab(github,event.repository.owner.login,event.repository.name,event.comment.user.login))
-	github.pullRequests.get({
-    user: event.repository.owner.login,
-    repo: event.repository.name,
-    number: event.issue.number
-  }).then(function(a,b){
-		// console.log(JSON.stringify(a),JSON.stringify(b));
-		cb();
-	}).catch(function(e) {
-    console.log(e);
-    cb();
-  })
+    var owner = event.repository.owner.login;
+    var repo = event.repository.name;
+    var author = event.comment.user.login;
+    var msg = event.comment.body;
+    if (msg.toLowerCase() !== 'lgtm') {
+        return cb();
+    }
+    github.repos.checkCollaborator({
+        user: owner,
+        repo: repo,
+        collabuser: author
+    }).then(function (res) {
+        console.log(res);
+    }, function (err) {
+        console.error(err);
+        return cb();
+    });
+    github.pullRequests.get({
+        user: event.repository.owner.login,
+        repo: event.repository.name,
+        number: event.issue.number,
+    }).then(function () {
+        cb();
+    }).catch(function (e) {
+        console.log(e);
+        cb();
+    });
+    return cb();
 }
