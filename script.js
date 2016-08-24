@@ -43,7 +43,7 @@ function onIssueComment(github, event, cb) {
             repo: repo,
             number: number,
             squash: true
-        }).then(github.gitdata.deleteReference({user: owner, repo: repo, ref: 'heads/'+ref}));
+        }).then(() => github.gitdata.deleteReference({user: owner, repo: repo, ref: 'heads/'+ref})); // Only run if merge succeeds.
       }
     ).then(
       cb,
@@ -53,4 +53,3 @@ function onIssueComment(github, event, cb) {
         cb();
     });
 }
-
