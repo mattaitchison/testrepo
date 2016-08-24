@@ -21,20 +21,13 @@ function onIssueComment(github, event, cb) {
         user: owner,
         repo: repo,
         collabuser: author
-    }).then(() => github.pullRequests.get({
-                    user: owner,
-                    repo: repo,
-                    number: number})
-    ).then(
+    }).then(
         res => {
-            console.log(JSON.stringify(res))
-            // Atempt to merge PR.
-            return github.pullRequests.merge({
-                user: owner,
-                repo: repo,
-                number: number,
-                squash: true
-            });
+          return github.pullRequests.get({
+                        user: owner,
+                        repo: repo,
+                        number: number})
+            // console.log(JSON.stringify(res))
         },
         err => {
             console.log(JSON.stringify({
@@ -42,7 +35,17 @@ function onIssueComment(github, event, cb) {
             }));
             throw new Error("author is not collaborator");
         }
-    ).then(cb).catch(e => {
+    ).then(
+      res => {
+        const ref = res.head.ref;
+        return github.pullRequests.merge({
+            user: owner,
+            repo: repo,
+            number: number,
+            squash: true
+        }).then(github.gitdata.deleteReference({user: owner, repo: repo, ref: 'heads/'+ref}));
+      }
+    )then(cb).catch(e => {
         console.log(e);
         cb();
     });
